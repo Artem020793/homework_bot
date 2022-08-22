@@ -109,6 +109,7 @@ def check_tokens():
     """
     return all([PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID])
 
+
 def main():
     """Основная логика работы бота."""
     current_timestamp = int(time.time()) - ONE_DAY
