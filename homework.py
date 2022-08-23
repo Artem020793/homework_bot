@@ -20,7 +20,6 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
 RETRY_TIME = 600
-ONE_DAY = 86400
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
 HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
 
@@ -144,7 +143,6 @@ def main():
 
 if __name__ == '__main__':
     logging.basicConfig(
-        encoding='UTF-8',
         level=logging.INFO,
         format='%(asctime)s, %(levelname)s, %(message)s, %(name)s',
         handlers=[logging.StreamHandler()]
