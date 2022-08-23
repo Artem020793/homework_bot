@@ -143,6 +143,7 @@ def main():
 
 if __name__ == '__main__':
     logging.basicConfig(
+        encoding='UTF-8',
         level=logging.INFO,
         format='%(asctime)s, %(levelname)s, %(message)s, %(name)s',
         handlers=[logging.StreamHandler()]
