@@ -127,8 +127,8 @@ def main():
             current_timestamp = response.get('current_date')
             status = parse_status(check_response(response))
             if status != status_message:
-                send_message(bot, message)
-                status_message = message
+                send_message(bot, status)
+                status_message = status
             else:
                 info = f'Статус не изменился. Ждем еще {RETRY_TIME} сек.'
                 logger.debug(info)
@@ -145,8 +145,8 @@ def main():
 if __name__ == '__main__':
     logging.basicConfig(
         encoding='UTF-8',
-        level = logging.INFO,
-        format = '%(asctime)s, %(levelname)s, %(message)s, %(name)s',
-        handlers = [logging.StreamHandler()]
+        level=logging.INFO,
+        format='%(asctime)s, %(levelname)s, %(message)s, %(name)s',
+        handlers=[logging.StreamHandler()]
     )
     main()
