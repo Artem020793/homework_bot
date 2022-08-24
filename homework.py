@@ -37,7 +37,7 @@ def send_message(bot, message):
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
     except telegram.error.TelegramError:
-        raise SendMessageException('Ошибка отправки сообщения')
+        logger.error('Ошибка отправки сообщения')
     else:
         logger.info('Сообщение в чат отправлено')
 
@@ -68,21 +68,24 @@ def get_api_answer(current_timestamp):
 
 def check_response(response):
     """Проверяет ответ API на корректность."""
-    if response['homeworks'] == []:
-        text_error = 'От API получен пустой список проверяемых работ.'
+    if not isinstance(response, dict):
+        text_error = 'Не тот тип данных для ожидания.'
         raise TypeError(text_error)
     if 'homeworks' not in response:
         text_error = 'В ответе на запрос отсутствует ключ "homeworks"'
-        raise ValueError(text_error)
-    homework = response['homeworks']
-    if homework[0] is None:
+        raise KeyError(text_error)
+    homeworks = response['homeworks']
+    if response['homeworks'] == []:
+        text_error = 'От API получен пустой список проверяемых работ.'
+        raise TypeError(text_error)
+    if homeworks[0] is None:
         text_error = 'Нет списка проверяемых работ.'
         raise ValueError(text_error)
-    if not isinstance(homework[0], dict):
-        text_error = f'Ошибка типа данных! {homework} не словарь!'
+    if not isinstance(homeworks[0], dict):
+        text_error = f'Ошибка типа данных! {homeworks} не словарь!'
         raise TypeError(text_error)
     else:
-        return homework
+        return homeworks
 
 
 def parse_status(homework):
@@ -124,7 +127,7 @@ def main():
         try:
             response = get_api_answer(current_timestamp)
             current_timestamp = response.get('current_date')
-            status = parse_status(check_response(response))
+            status = parse_status(check_response(response)[0])
             if status != status_message:
                 send_message(bot, status)
                 status_message = status
